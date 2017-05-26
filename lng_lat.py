@@ -2,6 +2,7 @@
 # -*- encoding: utf-8 -*-
 #
 
+import math
 from math import radians, cos, sin, asin, sqrt
 
 
@@ -51,6 +52,25 @@ def point_move(lng,lat,dis,direction):
 
 	return int((lng + lng_) * 1000000) / 1000000.0, int((lat + lat_) * 1000000) / 1000000.0
 
+
+def gcj02_to_bd09(gg_lon, gg_lat):
+    x = gg_lon
+    y = gg_lat
+    z = math.sqrt(x * x + y * y) + 0.00002 * math.sin(y * pi)
+    theta = math.atan2(y, x) + 0.000003 * math.cos(x * pi)
+    bd_lon = z * math.cos(theta) + 0.0065
+    bd_lat = z * math.sin(theta) + 0.006
+    return (bd_lon, bd_lat)
+
+
+def bd09_to_gcj02(bd_lon, bd_lat):
+    x = bd_lon - 0.0065
+    y = bd_lat - 0.006
+    z = math.sqrt(x * x + y * y) - 0.00002 * math.sin(y * pi)
+    theta = math.atan2(y, x) - 0.000003 * math.cos(x * pi)
+    gg_lon = z * math.cos(theta)
+    gg_lat = z * math.sin(theta)
+    return (gg_lon, gg_lat)
 
 
 lng_lat = (102.665696,25.045998)
