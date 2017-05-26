@@ -1,9 +1,11 @@
-﻿#!/usr/bin/env python
+#!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 #
 
-import math
 from math import radians, cos, sin, asin, sqrt
+from math import pi as PI
+import math
+pi = PI * 3000.0 / 180.0
 
 
 def haversine(lng1, lat1, lng2, lat2):
