@@ -16,6 +16,8 @@ Standard Cron Triggers:
 True
 >>> job.check_trigger((2012, 12, 21, 0 , 0))
 False
+>>> job.check_trigger()
+
 Periodic Trigger:
 >>> job = CronExpression("0 %9 * * * Feed 'it'", (2010, 5, 1, 7, 0, -6))
 >>> job.comment
@@ -30,6 +32,7 @@ True
 
 import calendar
 import datetime
+import time
 import re
 
 __all__ = ["CronExpression", "parse_atom", "DEFAULT_EPOCH", "SUBSTITUTIONS",
@@ -148,7 +151,7 @@ class CronExpression(object):
         elif self.string_tab[4] == "*" and self.string_tab[2] != "*":
             self.numerical_tab[4] = set()
 
-    def check_trigger(self, date_tuple, utc_offset=0):
+    def check_trigger(self, date_tuple=time.gmtime(time.time())[:5], utc_offset=0):
         """
         Returns boolean indicating if the trigger is active at the given time.
         The date tuple should be in the local time. Unless periodicities are
