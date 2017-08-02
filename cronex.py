@@ -151,7 +151,7 @@ class CronExpression(object):
         elif self.string_tab[4] == "*" and self.string_tab[2] != "*":
             self.numerical_tab[4] = set()
 
-    def check_trigger(self, date_tuple=time.gmtime(time.time())[:5], utc_offset=0):
+    def check_trigger(self, date_tuple=time.gmtime(time.time() - time.timezone)[:5], utc_offset=0):
         """
         Returns boolean indicating if the trigger is active at the given time.
         The date tuple should be in the local time. Unless periodicities are
@@ -159,6 +159,10 @@ class CronExpression(object):
         used, specifically in the hour and minutes fields, it is crucial that
         the utc_offset is specified.
         """
+        # print('date_tuple')
+        # print(date_tuple)
+        # print(time.gmtime(time.time())[:5])
+
         year, month, day, hour, mins = date_tuple
         given_date = datetime.date(year, month, day)
         zeroday = datetime.date(*self.epoch[:3])
